@@ -43,6 +43,9 @@ const Navbar = () => {
             <Link
               key={item.name}
               to={item.href}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               className={`text-lg font-bold transition-colors hover:text-primary ${
                 isActive(item.href) 
                   ? "text-primary" 
@@ -59,9 +62,12 @@ const Navbar = () => {
           <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary hover:text-white">
             دخول
           </Button>
-          <Button variant="hero" size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+          <Link
+            to="/free-signup"
+            className="bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-2 text-sm font-bold transition-colors"
+          >
             ابدأ الاستخدام مجانًا
-          </Button>
+          </Link>
         </div>
 
         {/* Mobile menu */}
@@ -79,7 +85,10 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                     className={`text-xl font-bold transition-colors hover:text-primary py-2 ${
                       isActive(item.href) 
                         ? "text-primary" 
@@ -95,9 +104,12 @@ const Navbar = () => {
                 <Button variant="outline" size="lg" className="w-full text-primary border-primary hover:bg-primary hover:text-white">
                   دخول
                 </Button>
-                <Button variant="hero" size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white">
+                <Link
+                  to="/free-signup"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-3 text-lg font-bold transition-colors text-center"
+                >
                   ابدأ الاستخدام مجانًا
-                </Button>
+                </Link>
               </div>
             </div>
           </SheetContent>

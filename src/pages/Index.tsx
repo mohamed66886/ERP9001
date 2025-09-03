@@ -5,6 +5,7 @@ import IndustriesSection from "@/components/IndustriesSection";
 import Info from "@/components/info";
 import Dutycycle from "@/components/Dutycycle";
 import Erp90Section from "@/components/erp90";
+import Pricing from "@/components/Pricing";
 import WHY from "@/components/WHY";
 
 const Index = () => {
@@ -16,7 +17,7 @@ const Index = () => {
       <IndustriesSection />
       <Info />
       <Dutycycle />
-      <Info />
+      <Pricing />
       <Erp90Section />
             <WHY />
 

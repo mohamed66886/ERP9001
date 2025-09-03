@@ -1,9 +1,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, X } from "lucide-react";
+import { CheckCircle, X, Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Pricing = () => {
+  const navigate = useNavigate();
+  const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
+  
+  const handleSelectPlan = async (plan: { name: string; price: string }, index: number) => {
+    setLoadingIndex(index);
+    await new Promise(resolve => setTimeout(resolve, 1200));
+    window.scrollTo(0, 0);
+    navigate(`/payment?plan=${encodeURIComponent(plan.name)}&price=${plan.price}`);
+    setLoadingIndex(null);
+  };
+
   const plans = [
     {
       name: "الباقة الأساسية",
@@ -85,10 +98,10 @@ const Pricing = () => {
       <div className="container">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in-up">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
             خطط الأسعار
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-2 sm:mb-0">
             اختر الباقة المناسبة لحجم أعمالك. جميع الباقات تشمل تجربة مجانية لمدة 30 يوم
           </p>
         </div>
@@ -113,35 +126,33 @@ const Pricing = () => {
                 </div>
               )}
               
-              <CardHeader className="text-center pb-8">
-                <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold text-primary">{plan.price}</span>
-                  <span className="text-muted-foreground mr-1">ريال {plan.period}</span>
+              <CardHeader className="text-center pb-6 sm:pb-8">
+                <CardTitle className="text-lg sm:text-2xl mb-1 sm:mb-2">{plan.name}</CardTitle>
+                <div className="mb-2 sm:mb-4">
+                  <span className="text-2xl sm:text-4xl font-bold text-primary">{plan.price}</span>
+                  <span className="text-muted-foreground mr-1 text-xs sm:text-base">ريال {plan.period}</span>
                 </div>
-                <p className="text-muted-foreground">{plan.description}</p>
+                <p className="text-xs sm:text-base text-muted-foreground">{plan.description}</p>
               </CardHeader>
 
               <CardContent>
-                <div className="space-y-4 mb-8">
+                <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                   {plan.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-start gap-3">
+                    <div key={featureIndex} className="flex items-start gap-2 sm:gap-3">
                       {typeof feature === 'string' ? (
                         <>
-                          <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-secondary flex-shrink-0 mt-0.5" />
+                          <span className="text-xs sm:text-sm">{feature}</span>
                         </>
                       ) : (
                         <>
                           {feature.included ? (
-                            <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+                            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-secondary flex-shrink-0 mt-0.5" />
                           ) : (
-                            <X className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                            <X className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                           )}
                           <span 
-                            className={`text-sm ${
-                              feature.included ? '' : 'text-muted-foreground'
-                            }`}
+                            className={`text-xs sm:text-sm ${feature.included ? '' : 'text-muted-foreground'}`}
                           >
                             {feature.name}
                           </span>
@@ -153,10 +164,16 @@ const Pricing = () => {
 
                 <Button 
                   variant={plan.featured ? "hero" : "outline-hero"} 
-                  size="lg" 
-                  className="w-full"
+                  size="sm" 
+                  className="w-full px-2 py-1 sm:px-4 sm:py-2 flex items-center justify-center"
+                  onClick={() => handleSelectPlan(plan, index)}
+                  disabled={loadingIndex === index}
                 >
-                  {plan.featured ? "ابدأ التجربة المجانية" : "اختر هذه الباقة"}
+                  {loadingIndex === index ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    plan.featured ? "ابدأ التجربة المجانية" : "اختر هذه الباقة"
+                  )}
                 </Button>
               </CardContent>
             </Card>
@@ -165,18 +182,18 @@ const Pricing = () => {
 
         {/* FAQ Section */}
         <div className="animate-fade-in-up">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+          <h2 className="text-xl sm:text-3xl font-bold text-center text-foreground mb-6 sm:mb-12">
             الأسئلة الشائعة
           </h2>
           
           <div className="max-w-3xl mx-auto space-y-6">
             {faq.map((item, index) => (
               <Card key={index} className="shadow-soft">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-foreground mb-2">
+                <CardContent className="p-4 sm:p-6">
+                  <h3 className="font-semibold text-foreground mb-1 sm:mb-2 text-sm sm:text-base">
                     {item.question}
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-xs sm:text-base text-muted-foreground">
                     {item.answer}
                   </p>
                 </CardContent>
@@ -186,18 +203,18 @@ const Pricing = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-16 p-8 rounded-lg hero-gradient animate-fade-in-up">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+        <div className="text-center mt-10 sm:mt-16 p-4 sm:p-8 rounded-lg hero-gradient animate-fade-in-up">
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-foreground mb-2 sm:mb-4">
             لا تزال غير متأكد؟
           </h2>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-base text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto">
             تحدث مع أحد خبرائنا للحصول على استشارة مجانية وتحديد الباقة المناسبة لأعمالك
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="lg">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <Button variant="hero" size="sm" className="px-2 py-1 text-xs sm:text-base sm:px-4 sm:py-2">
               استشارة مجانية
             </Button>
-            <Button variant="outline-hero" size="lg">
+            <Button variant="outline-hero" size="sm" className="px-2 py-1 text-xs sm:text-base sm:px-4 sm:py-2">
               مقارنة الباقات
             </Button>
           </div>
