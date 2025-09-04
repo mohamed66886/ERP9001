@@ -5,6 +5,7 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "devCommand": "npm run dev",
+  "regions": ["iad1"],
   "functions": {
     "app/api/**": {
       "runtime": "nodejs18.x"
