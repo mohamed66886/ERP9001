@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone, Mail, HelpCircle, ChevronDown, ChevronUp, HeadphonesIcon, CreditCard, Cloud, Shield, Users } from "lucide-react";
 import { useState } from "react";
+import SEO from "@/components/SEO";
 
 const FAQ = () => {
   const [activeSection, setActiveSection] = useState<string | null>("general");
@@ -107,8 +108,51 @@ const FAQ = () => {
     }
   ];
 
+  // Collect all questions for FAQ structured data
+  const allQuestions = faqSections.flatMap(section => 
+    section.questions.map(q => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: q.answer
+      }
+    }))
+  );
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    name: "الأسئلة الشائعة - ERP90",
+    description: "جميع الأسئلة الشائعة حول نظام ERP90 وخدماته وأسعاره والدعم الفني",
+    url: "https://erp90.cloud/faq",
+    mainEntity: allQuestions,
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "الرئيسية",
+          item: "https://erp90.cloud"
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "الأسئلة الشائعة",
+          item: "https://erp90.cloud/faq"
+        }
+      ]
+    }
+  };
+
   return (
     <div className="min-h-screen py-8 md:py-20 bg-gradient-to-b from-background to-muted/30">
+      <SEO 
+        page="faq"
+        structuredData={structuredData}
+        canonical="https://erp90.cloud/faq"
+      />
       <div className="container max-w-6xl px-2 md:px-4">
         {/* Header */}
         <div className="text-center mb-8 md:mb-16">

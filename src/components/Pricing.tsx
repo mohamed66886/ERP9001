@@ -3,11 +3,63 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, X, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Pricing = () => {
   const navigate = useNavigate();
   const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
+  
+  // Add schema markup for pricing
+  useEffect(() => {
+    const pricingSchema = {
+      "@context": "https://schema.org",
+      "@type": "PriceSpecification",
+      name: "ERP90 Pricing Plans",
+      description: "أسعار وباقات نظام ERP90 المرنة لجميع أحجام الشركات",
+      priceCurrency: "SAR",
+      offers: [
+        {
+          "@type": "Offer",
+          name: "الباقة الأساسية",
+          price: "299",
+          priceCurrency: "SAR",
+          description: "مثالية للشركات الناشئة والصغيرة"
+        },
+        {
+          "@type": "Offer", 
+          name: "الباقة المتقدمة",
+          price: "599",
+          priceCurrency: "SAR",
+          description: "الأمثل للشركات المتوسطة والمتنامية"
+        },
+        {
+          "@type": "Offer",
+          name: "الباقة الاحترافية", 
+          price: "999",
+          priceCurrency: "SAR",
+          description: "للشركات الكبيرة والمؤسسات"
+        }
+      ]
+    };
+
+    const existingPricingScript = document.querySelector('script[data-pricing="schema"]');
+    if (existingPricingScript) {
+      existingPricingScript.remove();
+    }
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-pricing', 'schema');
+    script.textContent = JSON.stringify(pricingSchema);
+    document.head.appendChild(script);
+
+    return () => {
+      const pricingScript = document.querySelector('script[data-pricing="schema"]');
+      if (pricingScript) {
+        pricingScript.remove();
+      }
+    };
+  }, []);
   
   const handleSelectPlan = async (plan: { name: string; price: string }, index: number) => {
     setLoadingIndex(index);

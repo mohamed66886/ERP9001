@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "antd";
 import { Select } from "antd";
+import SEO from "@/components/SEO";
 
 const countries = [
 	{ code: "+20", flag: "🇪🇬" },
@@ -159,8 +160,55 @@ const FreeSignup = () => {
 		}
 	};
 
+	const structuredData = {
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		name: "تسجيل مجاني - ERP90",
+		description: "ابدأ تجربة مجانية 14 يوم لنظام ERP90 بدون التزام مالي. إنشاء حساب سهل وسريع",
+		url: "https://erp90.cloud/free-signup",
+		mainEntity: {
+			"@type": "Offer",
+			name: "تجربة مجانية لنظام ERP90",
+			description: "تجربة مجانية لمدة 14 يوم لجميع ميزات نظام ERP90",
+			price: "0",
+			priceCurrency: "SAR",
+			availability: "https://schema.org/InStock",
+			validFrom: "2025-09-04",
+			validThrough: "2025-12-31",
+			offeredBy: {
+				"@type": "Organization",
+				name: "ERP90"
+			}
+		},
+		breadcrumb: {
+			"@type": "BreadcrumbList",
+			itemListElement: [
+				{
+					"@type": "ListItem",
+					position: 1,
+					name: "الرئيسية",
+					item: "https://erp90.cloud"
+				},
+				{
+					"@type": "ListItem",
+					position: 2,
+					name: "تسجيل مجاني",
+					item: "https://erp90.cloud/free-signup"
+				}
+			]
+		}
+	};
+
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-100">
+			<SEO 
+				title="تسجيل مجاني | ابدأ تجربة ERP90 لمدة 14 يوم بدون التزام"
+				description="ابدأ تجربة مجانية 14 يوم لنظام ERP90 بدون التزام مالي. تسجيل سهل وسريع للوصول لجميع ميزات النظام"
+				keywords={["تسجيل مجاني ERP90", "تجربة مجانية", "إنشاء حساب", "ERP مجاني", "تجربة نظام إدارة", "اشتراك مجاني"]}
+				page="free-signup"
+				structuredData={structuredData}
+				canonical="https://erp90.cloud/free-signup"
+			/>
 			<div className="w-full max-w-[1200px] p-4 flex flex-col justify-between md:flex-row gap-8 md:gap-[60px]">
 				{/* يسار: نموذج التسجيل */}
 				<div className="w-full md:w-[469px] bg-white rounded-lg shadow-lg p-4 md:p-8">

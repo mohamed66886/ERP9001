@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { 
   ShoppingCart, 
   Package, 
@@ -226,8 +227,56 @@ const categories = [
     ? services 
     : services.filter(service => service.category === activeFilter);
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "خدمات ERP90 المتكاملة",
+    description: "اكتشف مجموعة واسعة من خدمات ERP90 المتكاملة لإدارة جميع جوانب أعمالك",
+    url: "https://erp90.cloud/services",
+    mainEntity: {
+      "@type": "ItemList",
+      name: "خدمات ERP90",
+      description: "قائمة بجميع خدمات نظام ERP90",
+      itemListElement: services.map((service, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Service",
+          name: service.title,
+          description: service.description,
+          provider: {
+            "@type": "Organization",
+            name: "ERP90"
+          }
+        }
+      }))
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "الرئيسية",
+          item: "https://erp90.cloud"
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "الخدمات",
+          item: "https://erp90.cloud/services"
+        }
+      ]
+    }
+  };
+
   return (
     <div className="min-h-screen py-12 md:py-20 bg-gradient-to-b from-background to-muted/30">
+      <SEO 
+        page="services"
+        structuredData={structuredData}
+        canonical="https://erp90.cloud/services"
+      />
       <div className="container max-w-6xl px-4">
         {/* Header */}
         <div className="text-center mb-8 md:mb-16">
@@ -237,7 +286,7 @@ const categories = [
           <h1 className="text-xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2 md:mb-6">
             خدماتنا المتكاملة
           </h1>
-          <p className="text-xs md:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xs md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             مجموعة شاملة من الحلول التقنية المتطورة لإدارة أعمالك بكفاءة وفعالية
           </p>
         </div>
